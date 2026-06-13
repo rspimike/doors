@@ -20,6 +20,12 @@
             <h2>Project Information</h2>
             <form id="project-form">
                 <div class="form-group">
+                    <label for="saved-project-select">Saved Projects</label>
+                    <select id="saved-project-select">
+                        <option value="">— New Project —</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="project-name">Project Name</label>
                     <input type="text" id="project-name" required placeholder="e.g. Smith Residence">
                 </div>
@@ -40,6 +46,12 @@
                         <label for="project-zip">ZIP</label>
                         <input type="text" id="project-zip" required placeholder="ZIP Code">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="saved-contact-select">Saved Contacts</label>
+                    <select id="saved-contact-select">
+                        <option value="">— New Contact —</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="contact-name">Contact Name</label>
@@ -129,6 +141,7 @@
             <h2>Order Summary</h2>
             <div id="summary-content"></div>
             <div class="button-row">
+                <button id="btn-back-edit" class="btn btn-secondary">Back to Edit</button>
                 <button id="btn-download" class="btn btn-primary">Download PDF</button>
                 <button id="btn-restart" class="btn btn-secondary">Start New Project</button>
             </div>
