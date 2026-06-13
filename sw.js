@@ -1,4 +1,4 @@
-const CACHE_NAME = 'door-schedule-v1';
+const CACHE_NAME = 'door-schedule-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
