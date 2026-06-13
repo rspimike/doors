@@ -74,6 +74,13 @@
         <!-- Step 2: Door Selection -->
         <div id="step-door" class="step">
             <h2>Door Selection <span id="door-count"></span></h2>
+
+            <!-- Current door list -->
+            <div id="door-list-container" style="display:none;">
+                <h3 style="margin-bottom:10px; font-size:0.95rem; color:#555;">Doors Added</h3>
+                <div id="door-list"></div>
+            </div>
+
             <form id="door-form">
                 <div class="form-group">
                     <label for="room-name">Room / Location Name</label>
@@ -148,7 +155,7 @@
         </div>
     </div>
 
-    <footer style="text-align:center; padding:12px; font-size:11px; color:#aaa;">v2.0</footer>
+    <footer style="text-align:center; padding:12px; font-size:11px; color:#aaa;">v2.1</footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="door-images.js"></script>

@@ -225,3 +225,65 @@ h2 {
     color: #888;
     font-weight: normal;
 }
+
+/* Door list in step 2 */
+#door-list-container {
+    margin-bottom: 24px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e8ecf0;
+}
+
+.door-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e0e4e8;
+    font-size: 0.85rem;
+}
+
+.door-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.door-list-item .door-info {
+    flex: 1;
+}
+
+.door-list-item .door-info strong {
+    color: #333;
+}
+
+.door-list-item .door-info span {
+    color: #666;
+    margin-left: 8px;
+}
+
+.door-list-item .door-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.door-list-item .door-actions button {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.door-list-item .door-actions .btn-edit {
+    background: #4a90d9;
+    color: #fff;
+}
+
+.door-list-item .door-actions .btn-delete {
+    background: #e74c3c;
+    color: #fff;
+}

@@ -198,9 +198,63 @@ projectForm.addEventListener('submit', (e) => {
 });
 
 // Step 2: Door Selection
+let editingDoorIndex = -1; // -1 means adding new, >= 0 means editing existing
+
 function resetDoorForm() {
     doorForm.reset();
+    editingDoorIndex = -1;
+    // Reset button text
+    doorForm.querySelector('button[type="submit"]').textContent = 'Add Another Door';
     updateDoorCount();
+    renderDoorList();
+}
+
+function renderDoorList() {
+    const container = document.getElementById('door-list-container');
+    const list = document.getElementById('door-list');
+
+    if (doors.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+
+    container.style.display = 'block';
+    list.innerHTML = doors.map((door, i) => `
+        <div class="door-list-item">
+            <div class="door-info">
+                <strong>#${i + 1} ${door.room}</strong>
+                <span>${door.type} — ${door.width} × ${door.height}</span>
+            </div>
+            <div class="door-actions">
+                <button type="button" class="btn-edit" onclick="editDoor(${i})">Edit</button>
+                <button type="button" class="btn-delete" onclick="deleteDoor(${i})">Del</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function editDoor(index) {
+    const door = doors[index];
+    editingDoorIndex = index;
+
+    document.getElementById('room-name').value = door.room;
+    document.getElementById('rough-opening').value = door.roughOpening;
+    document.getElementById('door-width').value = door.width;
+    document.getElementById('door-height').value = door.height;
+
+    // Select the right radio
+    const radios = document.querySelectorAll('input[name="door-type"]');
+    radios.forEach(r => { r.checked = (r.value === door.type); });
+
+    // Change button text
+    doorForm.querySelector('button[type="submit"]').textContent = 'Save Changes';
+}
+
+function deleteDoor(index) {
+    doors.splice(index, 1);
+    // Renumber
+    doors.forEach((d, i) => { d.number = i + 1; });
+    resetDoorForm();
 }
 
 function addDoorFromForm() {
@@ -220,14 +274,23 @@ function addDoorFromForm() {
         return false;
     }
 
-    doors.push({
-        number: doors.length + 1,
+    const doorData = {
         room: roomName,
         type: doorType.value,
         roughOpening: ensureInches(roughOpening),
         width: ensureInches(doorWidth),
         height: ensureInches(doorHeight)
-    });
+    };
+
+    if (editingDoorIndex >= 0) {
+        // Update existing
+        doorData.number = editingDoorIndex + 1;
+        doors[editingDoorIndex] = doorData;
+    } else {
+        // Add new
+        doorData.number = doors.length + 1;
+        doors.push(doorData);
+    }
 
     return true;
 }
@@ -418,6 +481,7 @@ function generatePDF() {
 // Back to edit doors
 btnBackEdit.addEventListener('click', () => {
     showStep(stepDoor);
+    renderDoorList();
     updateDoorCount();
 });
 
