@@ -308,10 +308,11 @@ btnFinish.addEventListener('click', () => {
     const doorType = document.querySelector('input[name="door-type"]:checked');
 
     if (roomName || doorType) {
-        // User has started filling in a door, try to add it
+        // User has started filling in a door, try to add/update it
         if (!addDoorFromForm()) {
             return; // Validation failed
         }
+        resetDoorForm();
     }
 
     if (doors.length === 0) {
