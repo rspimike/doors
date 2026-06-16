@@ -95,16 +95,29 @@ function getSavedProjects() {
     } catch (e) { return []; }
 }
 
-function saveProject(project) {
+function saveFullProject() {
+    // Save project info + all door selections together
     const projects = getSavedProjects();
-    // Update existing or add new (match by name)
-    const idx = projects.findIndex(p => p.name === project.name);
+    const record = {
+        name: projectInfo.name,
+        address: projectInfo.address,
+        city: projectInfo.city,
+        state: projectInfo.state,
+        zip: projectInfo.zip,
+        contactName: projectInfo.contactName,
+        phone: projectInfo.phone,
+        email: projectInfo.email,
+        doors: doors,
+        lastModified: new Date().toISOString()
+    };
+    const idx = projects.findIndex(p => p.name === record.name);
     if (idx >= 0) {
-        projects[idx] = project;
+        projects[idx] = record;
     } else {
-        projects.push(project);
+        projects.push(record);
     }
     localStorage.setItem('doorapp_projects', JSON.stringify(projects));
+    populateProjectDropdown();
 }
 
 function getSavedContacts() {
@@ -128,9 +141,12 @@ function populateProjectDropdown() {
     const projects = getSavedProjects();
     savedProjectSelect.innerHTML = '<option value="">— New Project —</option>';
     projects.forEach((p, i) => {
+        const label = p.doors && p.doors.length > 0
+            ? `${p.name} (${p.doors.length} doors)`
+            : p.name;
         const opt = document.createElement('option');
         opt.value = i;
-        opt.textContent = p.name;
+        opt.textContent = label;
         savedProjectSelect.appendChild(opt);
     });
 }
@@ -148,7 +164,16 @@ function populateContactDropdown() {
 
 savedProjectSelect.addEventListener('change', () => {
     const idx = savedProjectSelect.value;
-    if (idx === '') return;
+    if (idx === '') {
+        // New project — clear fields and doors
+        document.getElementById('project-name').value = '';
+        document.getElementById('project-address').value = '';
+        document.getElementById('project-city').value = '';
+        document.getElementById('project-state').value = '';
+        document.getElementById('project-zip').value = '';
+        doors = [];
+        return;
+    }
     const projects = getSavedProjects();
     const p = projects[idx];
     if (p) {
@@ -157,6 +182,14 @@ savedProjectSelect.addEventListener('change', () => {
         document.getElementById('project-city').value = p.city || '';
         document.getElementById('project-state').value = p.state || '';
         document.getElementById('project-zip').value = p.zip || '';
+        // Also load contact if present
+        if (p.contactName) {
+            document.getElementById('contact-name').value = p.contactName || '';
+            document.getElementById('contact-phone').value = p.phone || '';
+            document.getElementById('contact-email').value = p.email || '';
+        }
+        // Load saved doors
+        doors = p.doors ? JSON.parse(JSON.stringify(p.doors)) : [];
     }
 });
 
@@ -189,12 +222,12 @@ projectForm.addEventListener('submit', (e) => {
         phone: document.getElementById('contact-phone').value.trim(),
         email: document.getElementById('contact-email').value.trim()
     };
-    saveProject({ name: projectInfo.name, address: projectInfo.address, city: projectInfo.city, state: projectInfo.state, zip: projectInfo.zip });
+    saveFullProject();
     saveContact({ contactName: projectInfo.contactName, phone: projectInfo.phone, email: projectInfo.email });
-    populateProjectDropdown();
     populateContactDropdown();
     showStep(stepDoor);
     updateDoorCount();
+    renderDoorList();
 });
 
 // Step 2: Door Selection
@@ -322,6 +355,8 @@ btnFinish.addEventListener('click', () => {
 
     showSummary();
     showStep(stepSummary);
+    // Auto-save project with all doors
+    saveFullProject();
 });
 
 // Step 3: Summary
