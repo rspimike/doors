@@ -12,7 +12,8 @@ function loadDoorImages() {
         'Left Hand': 'left_hand.png',
         'Left Hand Reverse': 'left_hand_reverse.png',
         'Right Hand': 'right_hand.png',
-        'Right Hand Reverse': 'right_hand_reverse.png'
+        'Right Hand Reverse': 'right_hand_reverse.png',
+        'Double Door Outswing': 'double.png'
     };
 
     // Wait for all images in the page to load, then convert them
