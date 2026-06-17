@@ -1,4 +1,4 @@
-const CACHE_NAME = 'door-schedule-v7';
+const CACHE_NAME = 'door-schedule-v8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const ASSETS_TO_CACHE = [
   './right_hand.png',
   './right_hand_reverse.png',
   './double.png',
+  './slab_with_bore.png',
   './rspi.png',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
