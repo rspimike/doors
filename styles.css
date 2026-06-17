@@ -120,7 +120,9 @@ h2 {
 .door-card img {
     width: 100%;
     max-width: 120px;
+    max-height: 100px;
     height: auto;
+    object-fit: contain;
     margin-bottom: 8px;
 }
 
